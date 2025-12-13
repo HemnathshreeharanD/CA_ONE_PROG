@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Que3_client.py
 Console client to collect applicant data, compute HMAC, send to server, and print response.
@@ -11,15 +10,12 @@ import hmac
 import hashlib
 from datetime import datetime
 
-# Client config (change host/port to match server)
 SERVER_HOST = "127.0.0.1"
 SERVER_PORT = 9000
 
-# Shared secret must match server
 SHARED_SECRET = b"very_secret_key_change_me"
 
 def compute_hmac_for_applicant(applicant_obj: dict) -> str:
-    # Use deterministic JSON: sorted keys, no spaces
     b = json.dumps(applicant_obj, separators=(",", ":"), sort_keys=True).encode("utf-8")
     return hmac.new(SHARED_SECRET, b, hashlib.sha256).hexdigest()
 
@@ -27,7 +23,6 @@ def send_payload(payload: bytes):
     with socket.create_connection((SERVER_HOST, SERVER_PORT), timeout=10) as s:
         header = struct.pack(">I", len(payload))
         s.sendall(header + payload)
-        # read 4-byte len
         raw_len = s.recv(4)
         if not raw_len:
             raise RuntimeError("No response from server")
@@ -53,7 +48,6 @@ def main():
     name = collect_input("Name: ")
     address = collect_input("Address: ")
     qualifications = collect_input("Educational qualifications: ")
-    # course should be one of three choices
     courses = ["MSc in Cyber Security", "MSc Information Systems & computing", "MSc Data Analytics"]
     print("Choose course:")
     for i,c in enumerate(courses,1):
@@ -107,3 +101,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
