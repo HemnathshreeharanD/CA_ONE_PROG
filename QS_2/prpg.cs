@@ -7,7 +7,6 @@ namespace FileExtensionInfoApp
     {
         static void Main(string[] args)
         {
-            // Dictionary Data Structure – extension → meaning
             Dictionary<string, string> fileInfo = new Dictionary<string, string>()
             {
                 { ".mp4",  "MPEG-4 Video File" },
@@ -39,20 +38,17 @@ namespace FileExtensionInfoApp
                 Console.Write("\nEnter a file extension (or type 'exit' to quit): ");
                 string input = Console.ReadLine().Trim().ToLower();
 
-                // Exit program
                 if (input == "exit")
                 {
                     Console.WriteLine("Exiting program. Goodbye!");
                     break;
                 }
 
-                // Ensure extension starts with dot
                 if (!input.StartsWith("."))
                 {
                     input = "." + input;
                 }
 
-                // Check if known
                 if (fileInfo.ContainsKey(input))
                 {
                     Console.WriteLine($"Extension: {input}");
@@ -67,3 +63,4 @@ namespace FileExtensionInfoApp
         }
     }
 }
+
